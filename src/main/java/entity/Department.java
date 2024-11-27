@@ -5,6 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -22,4 +26,26 @@ public class Department {
     @Column(name = "name",length = 50,unique = true,nullable = false)
     private String name;
 
+   @Column(name = "create_at",nullable = false,updatable = false) // không cho người dùng sửa,cập nhật
+   @CreationTimestamp //tự lấy thời gian trong hệ thống
+    private LocalDateTime createAt; // tạo lúc
+
+    @Column(name = "update_at",nullable = false)
+    @UpdateTimestamp // tự động update thời gian cập nhật
+    private LocalDateTime updateAt; // cập nhật lúc
+
+    //hàm này sẽ được chạy trươc khi thêm vào database
+
+    @PrePersist
+    public void prePersist() {
+        System.out.println(" Trước khi thêm vào");
+    }
+
+
+    //sau khi thêm vào database
+
+    @PostPersist
+    public void postPersist() {
+        System.out.println("sau khi theem");
+    }
 }
