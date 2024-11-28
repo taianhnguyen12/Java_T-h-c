@@ -26,6 +26,10 @@ public class Department {
     @Column(name = "name",length = 50,unique = true,nullable = false)
     private String name;
 
+@Column(name = "type",nullable = false)
+@Enumerated(value = EnumType.ORDINAL)
+    private Type type;
+
    @Column(name = "create_at",nullable = false,updatable = false) // không cho người dùng sửa,cập nhật
    @CreationTimestamp //tự lấy thời gian trong hệ thống
     private LocalDateTime createAt; // tạo lúc
@@ -47,5 +51,10 @@ public class Department {
     @PostPersist
     public void postPersist() {
         System.out.println("sau khi theem");
+    }
+
+
+    public enum Type {
+        DEVELOPER,TESTER,SCRUM_MASTER,PROJECT_MANAGER
     }
 }
