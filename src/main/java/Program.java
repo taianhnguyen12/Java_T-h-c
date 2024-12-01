@@ -1,4 +1,6 @@
+import entity.Account;
 import entity.Department;
+import entity.Group;
 import entity.GroupAccount;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -10,31 +12,44 @@ public class Program {
     public static void main(String[] args) {
         try(var factory = hibernateUtil.buildSessionFactory()) {
             factory.inTransaction(session -> {
-               var  groupAccount = new GroupAccount();
-               groupAccount.setGroupId(1);
-               groupAccount.setAccountId(2);
-               session.persist(groupAccount);
-                });
-            factory.inTransaction(session -> {
-                var  groupAccount = new GroupAccount();
-                groupAccount.setGroupId(7);
-                groupAccount.setAccountId(9);
-                session.persist(groupAccount);
+             var group = new Group();
+             group.setName("Hibernate");
+             session.persist(group);
+
+
+             var account = new Account();
+             account.setName("Tài");
+             account.setEmail("Taianhnguyen12@gmail.com");
+             account.setGroup(group);
+             session.persist(account);
+
             });
 
             //THử thứ 2 Find all
  factory.inTransaction(session -> {
      //hibernate
-     var hql = "FROM GroupAccount ";
-    var groupAccounts = session.createSelectionQuery(hql, GroupAccount.class)
+     var hql = "FROM Account ";
+    var accounts = session.createSelectionQuery(hql, Account.class)
              .getResultList();//bắt buộc Department là tên của entity
-     for (var groupAccount : groupAccounts) {
-         System.out.println("gr = " + groupAccounts); // lệnh gõ nhanh : department.soutv
+     for (var account : accounts) {
+         System.out.println("account = " + account.getName()); // lệnh gõ nhanh : department.soutv
+         System.out.println("group = " + account.getGroup().getName());
      }
 
  });
 
 
+            factory.inTransaction(session -> {
+                //hibernate
+                var hql = "FROM Group ";
+                var groups = session.createSelectionQuery(hql, Group.class)
+                        .getResultList();//bắt buộc Department là tên của entity
+                for (var group : groups) {
+                    System.out.println("group = " + group.getName()); // lệnh gõ nhanh : department.soutv
+                    System.out.println("account = " + group.getAccount().getName());
+                }
+
+            });
 
         }
     }
