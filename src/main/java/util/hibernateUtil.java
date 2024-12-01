@@ -20,6 +20,7 @@ public class hibernateUtil {
                 .setProperty(AvailableSettings.USER, "root")
                 .setProperty(AvailableSettings.PASS, "root")
                 .setProperty(AvailableSettings.GLOBALLY_QUOTED_IDENTIFIERS, "true") // tự động thêm thập nháy huyền
+                .setProperty(AvailableSettings.ENABLE_LAZY_LOAD_NO_TRANS, "true")
                 .setProperty(AvailableSettings.HBM2DDL_AUTO, "create")
                 .setProperty(AvailableSettings.SHOW_SQL, "true")
                 .setProperty(AvailableSettings.HIGHLIGHT_SQL , "true");

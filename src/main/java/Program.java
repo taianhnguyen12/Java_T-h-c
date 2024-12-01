@@ -17,39 +17,38 @@ public class Program {
              session.persist(group);
 
 
-             var account = new Account();
-             account.setName("Tài");
-             account.setEmail("Taianhnguyen12@gmail.com");
-             account.setGroup(group);
-             session.persist(account);
+             var account2 = new Account();
+             account2.setName("Tài");
+             account2.setEmail("Taianhnguyen12@gmail.com");
+             account2.setGroup(group);
+             session.persist(account2);
 
+
+
+                var account1 = new Account();
+                account1.setName("Hòa");
+                account1.setEmail("HoaAnh96@gmail.com");
+                account1.setGroup(group);
+                session.persist(account1);
             });
 
             //THử thứ 2 Find all
  factory.inTransaction(session -> {
      //hibernate
-     var hql = "FROM Account ";
-    var accounts = session.createSelectionQuery(hql, Account.class)
+     var hql = "FROM Group ";
+    var groups = session.createSelectionQuery(hql, Group.class)
              .getResultList();//bắt buộc Department là tên của entity
-     for (var account : accounts) {
-         System.out.println("account = " + account.getName()); // lệnh gõ nhanh : department.soutv
-         System.out.println("group = " + account.getGroup().getName());
+     for (var group : groups) {
+         System.out.println("group = " + group.getName()); // lệnh gõ nhanh : department.soutv
+         var accounts = group.getAccounts();
+         for (var account : accounts) {
+             System.out.println("account = " + account.getName());
+         }
      }
 
  });
 
 
-            factory.inTransaction(session -> {
-                //hibernate
-                var hql = "FROM Group ";
-                var groups = session.createSelectionQuery(hql, Group.class)
-                        .getResultList();//bắt buộc Department là tên của entity
-                for (var group : groups) {
-                    System.out.println("group = " + group.getName()); // lệnh gõ nhanh : department.soutv
-                    System.out.println("account = " + group.getAccount().getName());
-                }
-
-            });
 
         }
     }

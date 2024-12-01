@@ -21,7 +21,7 @@ public class Account {
     private String email;
 
 
-    @OneToOne
-    @JoinColumn(name = "group_id", referencedColumnName = "id",unique = true,nullable = false)
+    @ManyToOne()
+    @JoinColumn(name = "group_id", referencedColumnName = "id",nullable = false)
     private Group group;
 }
