@@ -1,6 +1,7 @@
 package entity;
 
 
+import converter.DepartmentTypeConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,14 +21,22 @@ public class Department {
 
     @Id // khóa chính
     @Column(name = "id") //tên cột
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // tự động tăng
+    @SequenceGenerator(
+            name = "department_id_generator",
+            sequenceName= "department_id_sequence",
+            initialValue = 5,
+            allocationSize = 1
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+    generator = "department_id_generator"
+    )
     private int id;
 
     @Column(name = "name",length = 50,unique = true,nullable = false)
     private String name;
 
 @Column(name = "type",nullable = false)
-@Enumerated(value = EnumType.STRING)
+@Convert(converter = DepartmentTypeConverter.class)
     private Type type;
 
    @Column(name = "create_at",nullable = false,updatable = false) // không cho người dùng sửa,cập nhật
