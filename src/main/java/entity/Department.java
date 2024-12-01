@@ -3,13 +3,11 @@ package entity;
 
 import converter.DepartmentTypeConverter;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.JavaType;
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 import org.hibernate.type.descriptor.jdbc.CharJdbcType;
 import org.hibernate.type.descriptor.jdbc.UUIDJdbcType;
 
@@ -26,10 +24,10 @@ public class Department {
 
     @Id // khóa chính
     @Column(name = "id") //tên cột
-@GeneratedValue(strategy = GenerationType.AUTO)
-    @JdbcType(CharJdbcType.class)
-
-    private UUID id;
+    @GenericGenerator(name = "department_id_generator",
+    strategy = "generator.DepartmentIdGenerator")
+    @GeneratedValue(generator = "department_id_generator")
+    private String id;
 
     @Column(name = "name",length = 50,unique = true,nullable = false)
     private String name;
