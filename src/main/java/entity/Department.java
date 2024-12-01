@@ -7,9 +7,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JavaType;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.descriptor.jdbc.CharJdbcType;
+import org.hibernate.type.descriptor.jdbc.UUIDJdbcType;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @Getter
@@ -21,16 +26,10 @@ public class Department {
 
     @Id // khóa chính
     @Column(name = "id") //tên cột
-    @SequenceGenerator(
-            name = "department_id_generator",
-            sequenceName= "department_id_sequence",
-            initialValue = 5,
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-    generator = "department_id_generator"
-    )
-    private int id;
+@GeneratedValue(strategy = GenerationType.AUTO)
+    @JdbcType(CharJdbcType.class)
+
+    private UUID id;
 
     @Column(name = "name",length = 50,unique = true,nullable = false)
     private String name;
