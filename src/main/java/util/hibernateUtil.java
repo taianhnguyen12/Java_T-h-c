@@ -1,6 +1,7 @@
 package util;
 
 import entity.Department;
+import entity.GroupAccount;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
@@ -9,6 +10,7 @@ public class hibernateUtil {
     public static SessionFactory buildSessionFactory() {
         var url = "jdbc:mysql://localhost:3306/lession_02?createDatabaseIfNotExist=true"; // tạo ra database nếu chưa có
         var configuration = new Configuration()
+                .addAnnotatedClass(GroupAccount.class)
                 .addAnnotatedClass(Department.class) // chúng toi có 1 bảng Department class
                 .setProperty(AvailableSettings.URL, url)
                 .setProperty(AvailableSettings.USER, "root")

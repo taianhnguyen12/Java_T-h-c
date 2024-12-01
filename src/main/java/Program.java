@@ -1,4 +1,5 @@
 import entity.Department;
+import entity.GroupAccount;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import util.hibernateUtil;
@@ -9,28 +10,30 @@ public class Program {
     public static void main(String[] args) {
         try(var factory = hibernateUtil.buildSessionFactory()) {
             factory.inTransaction(session -> {
-                var department = new Department();
-                 department.setName("Gíam Đốc");
-department.setType(Department.Type.DEVELOPER);
-                 session.persist(department);  //Hibernate sẽ tạo câu lệnh SQL INSERT để thêm thông tin của đối tượng department vào bảng tương ứng trong cơ sở dữ liệu.
-
+               var  groupAccount = new GroupAccount();
+               var pk = new GroupAccount.PrimaryKey();
+               pk.setGroupId(1);
+               pk.setAccountId(4);
+               groupAccount.setPk(pk);
+               session.persist(groupAccount);
                 });
             factory.inTransaction(session -> {
-                var department = new Department();
-                department.setName("Bảo vệ");
-                department.setType(Department.Type.TESTER);
-                session.persist(department);  //Hibernate sẽ tạo câu lệnh SQL INSERT để thêm thông tin của đối tượng department vào bảng tương ứng trong cơ sở dữ liệu.
-
+                var  groupAccount = new GroupAccount();
+                var pk = new GroupAccount.PrimaryKey();
+                pk.setGroupId(7);
+                pk.setAccountId(9);
+                groupAccount.setPk(pk);
+                session.persist(groupAccount);
             });
 
             //THử thứ 2 Find all
  factory.inTransaction(session -> {
      //hibernate
-     var hql = "FROM Department";
-    var departments = session.createSelectionQuery(hql, Department.class)
+     var hql = "FROM GroupAccount ";
+    var groupAccounts = session.createSelectionQuery(hql, GroupAccount.class)
              .getResultList();//bắt buộc Department là tên của entity
-     for (Department department : departments) {
-         System.out.println("department = " + department); // lệnh gõ nhanh : department.soutv
+     for (var groupAccount : groupAccounts) {
+         System.out.println("gr = " + groupAccounts); // lệnh gõ nhanh : department.soutv
      }
 
  });
