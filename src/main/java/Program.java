@@ -1,35 +1,37 @@
 import entity.Account;
-import entity.Department;
 import entity.Group;
-import entity.GroupAccount;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
 import util.hibernateUtil;
-
-import java.util.function.Consumer;
+import java.util.Arrays;
 
 public class Program {
     public static void main(String[] args) {
         try(var factory = hibernateUtil.buildSessionFactory()) {
             factory.inTransaction(session -> {
-             var group = new Group();
-             group.setName("Hibernate");
-             session.persist(group);
+             var group1 = new Group();
+             group1.setName("Hibernate core");
+             session.persist(group1);
 
+                var group2 = new Group();
+                group2.setName("Spring framework");
+                session.persist(group2);
 
-             var account2 = new Account();
+                var account2 = new Account();
              account2.setName("Tài");
              account2.setEmail("Taianhnguyen12@gmail.com");
-             account2.setGroup(group);
              session.persist(account2);
-
-
 
                 var account1 = new Account();
                 account1.setName("Hòa");
                 account1.setEmail("HoaAnh96@gmail.com");
-                account1.setGroup(group);
                 session.persist(account1);
+
+                account1.setGroups(Arrays.asList(group1, group2));
+                account2.setGroups(Arrays.asList(group1, group2));
+                group1.setAccounts(Arrays.asList(account1, account2));
+                group2.setAccounts(Arrays.asList(account1, account2));
+
+                session.persist(group1);
+                session.persist(group2);
             });
 
             //THử thứ 2 Find all
@@ -47,9 +49,6 @@ public class Program {
      }
 
  });
-
-
-
         }
     }
 }

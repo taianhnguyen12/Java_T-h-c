@@ -21,7 +21,20 @@ public class Group {
     private String name;
 
 
-    @OneToMany(mappedBy = "group")
+    @ManyToMany
+    @JoinTable(
+            name = "group_account",
+            joinColumns = @JoinColumn(
+                    name = "group_id",
+                    referencedColumnName = "id",
+                    nullable = false
+            ),
+            inverseJoinColumns= @JoinColumn(
+                    name = "account_id",
+            referencedColumnName = "id",
+            nullable = false)
+
+    )
 
     private List<Account> accounts;
 }
