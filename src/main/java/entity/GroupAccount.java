@@ -5,30 +5,28 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
-@Table(name ="Ga")
-@IdClass(value = GroupAccount.PrimaryKey.class)
+@Table(name ="group_account")
+
 public class GroupAccount {
+
     @Id
-    private int accountId;
-    private int groupId;
-    @Column(name = "joined_Date",nullable = false,updatable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "group_id",referencedColumnName = "id",nullable = false)
+    private Group group;
+    @ManyToOne
+    @JoinColumn(name = "account_id",referencedColumnName = "id",nullable = false)
+    private Account account;
+
+    @Column(name = "joined_at",nullable = false, updatable = false)
     @CreationTimestamp
-    private LocalDate joinDate;
-
-
-    @Setter
-    @Getter
-    @Embeddable
-    public static class PrimaryKey  implements Serializable {
-        @Column(name = "group_id",nullable = false)
-        private int groupId;
-        @Column(name = "account_id",nullable = false)
-        private int accountId;
-    }
+    private LocalDateTime joinedAt;
 }

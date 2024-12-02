@@ -1,7 +1,8 @@
 import entity.Account;
 import entity.Group;
+import entity.GroupAccount;
 import util.hibernateUtil;
-import java.util.Arrays;
+
 
 public class Program {
     public static void main(String[] args) {
@@ -25,13 +26,28 @@ public class Program {
                 account1.setEmail("HoaAnh96@gmail.com");
                 session.persist(account1);
 
-                account1.setGroups(Arrays.asList(group1, group2));
-                account2.setGroups(Arrays.asList(group1, group2));
-                group1.setAccounts(Arrays.asList(account1, account2));
-                group2.setAccounts(Arrays.asList(account1, account2));
 
-                session.persist(group1);
-                session.persist(group2);
+                var groupAccount1 = new GroupAccount();
+                groupAccount1.setAccount(account1);
+                groupAccount1.setGroup(group1);
+                session.persist(groupAccount1);
+
+                var groupAccount2 = new GroupAccount();
+                groupAccount2.setAccount(account1);
+                groupAccount2.setGroup(group2);
+                session.persist(groupAccount2);
+
+
+                var groupAccount3 = new GroupAccount();
+                groupAccount3.setAccount(account2);
+                groupAccount3.setGroup(group2);
+                session.persist(groupAccount3);
+
+
+                var groupAccount4 = new GroupAccount();
+                groupAccount4.setAccount(account2);
+                groupAccount4.setGroup(group1);
+                session.persist(groupAccount4);
             });
 
             //THử thứ 2 Find all
@@ -42,9 +58,10 @@ public class Program {
              .getResultList();//bắt buộc Department là tên của entity
      for (var group : groups) {
          System.out.println("group = " + group.getName()); // lệnh gõ nhanh : department.soutv
-         var accounts = group.getAccounts();
-         for (var account : accounts) {
-             System.out.println("account = " + account.getName());
+         var groupAccounts = group.getGroupAccounts();
+         for (var groupAccount : groupAccounts) {
+             System.out.println("account = " + groupAccount.getAccount().getName());
+             System.out.println("joined_at = " + groupAccount.getJoinedAt());
          }
      }
 
